@@ -1,0 +1,52 @@
+/* Print Optimizations */
+@media print {
+    /* Optimize for Black and White Printing */
+    .bw-print-optimize {
+        -webkit-filter: grayscale(100%);
+        filter: grayscale(100%);
+    }
+
+    /* High Contrast Mode */
+    .high-contrast-print {
+        filter: contrast(120%);
+    }
+
+    /* Reduce Ink Usage */
+    .ink-save {
+        font-weight: normal !important;
+        border-width: 0.5pt !important;
+    }
+
+    /* Image Optimizations */
+    img {
+        max-resolution: 300dpi;
+    }
+
+    /* Memory Usage Optimization */
+    .memory-optimize {
+        contain: content;
+    }
+
+    /* Background Image Handling */
+    .print-bg-remove {
+        background-image: none !important;
+    }
+
+    /* Font Subsetting for Print */
+    @font-face {
+        font-family: 'PrintOptimized';
+        src: local('Arial');
+        unicode-range: U+000-5FF; /* Basic Latin + Latin Supplement */
+    }
+}
+
+/* Print Preview Styles */
+@media screen {
+    .print-preview {
+        max-width: 210mm;
+        margin: 0 auto;
+        background: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20mm;
+    }
+}

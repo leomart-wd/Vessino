@@ -1,0 +1,51 @@
+/* Forms and Inputs Responsive Styles */
+@media (max-width: 767px) {
+    .form-group {
+        margin-bottom: var(--space-4);
+    }
+
+    .form-group label {
+        font-size: var(--text-sm);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-size: var(--text-base);
+        padding: var(--space-3);
+    }
+
+    .form-actions {
+        flex-direction: column;
+        gap: var(--space-3);
+    }
+
+    .form-actions button {
+        width: 100%;
+    }
+
+    /* Modal Forms */
+    .modal-content {
+        width: 90%;
+        max-height: 80vh;
+        padding: var(--space-4);
+    }
+
+    .modal-header {
+        padding: var(--space-3);
+    }
+
+    .modal-body {
+        padding: var(--space-3);
+    }
+
+    .modal-footer {
+        padding: var(--space-3);
+        flex-direction: column;
+        gap: var(--space-2);
+    }
+
+    .modal-footer button {
+        width: 100%;
+    }
+}

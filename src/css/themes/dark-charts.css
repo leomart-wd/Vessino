@@ -1,0 +1,47 @@
+/* Dark Theme Chart Styles */
+[data-theme="dark"] {
+    /* Chart Colors */
+    --chart-grid-color: rgba(255, 255, 255, 0.1);
+    --chart-text-color: var(--text-secondary);
+    --chart-line-color: var(--primary-500);
+    --chart-area-color: rgba(92, 107, 192, 0.2);
+    
+    .chart-container {
+        canvas {
+            filter: brightness(0.9);
+        }
+    }
+
+    /* Chart.js Overrides */
+    .chartjs-render-monitor {
+        color: var(--text-primary);
+    }
+
+    .chartjs-tooltip {
+        background: var(--surface-tertiary);
+        border: 1px solid var(--border-subtle);
+        color: var(--text-primary);
+    }
+
+    /* Custom Chart Styles */
+    .chart-legend {
+        color: var(--text-secondary);
+
+        .legend-item {
+            &::before {
+                border: 2px solid var(--primary-500);
+            }
+        }
+    }
+
+    /* Progress Charts */
+    .progress-chart {
+        .chart-label {
+            fill: var(--text-secondary);
+        }
+
+        .chart-value {
+            fill: var(--primary-500);
+        }
+    }
+}

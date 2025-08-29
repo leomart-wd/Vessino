@@ -1,0 +1,76 @@
+/* Widget-Specific Print Styles */
+@media print {
+    /* Progress Widget */
+    .progress-widget .progress-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5cm;
+        margin-bottom: 1cm;
+    }
+
+    .progress-widget .skill-progress {
+        margin-top: 1cm;
+    }
+
+    .skill-bar {
+        border: 1pt solid #ccc;
+        height: 12pt;
+    }
+
+    .skill-fill {
+        background: #666 !important;
+    }
+
+    /* Goals Widget */
+    .goals-widget .goals-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5cm;
+    }
+
+    .goal-card {
+        padding: 0.5cm;
+        margin-bottom: 0.5cm;
+    }
+
+    .goal-progress .progress-bar {
+        border: 1pt solid #ccc;
+    }
+
+    .goal-progress .progress-fill {
+        background: #666 !important;
+    }
+
+    /* Upcoming Lessons Widget */
+    .lessons-list {
+        margin-top: 0.5cm;
+    }
+
+    .lesson-card {
+        padding: 0.5cm;
+        margin-bottom: 0.5cm;
+        display: flex !important;
+        gap: 0.5cm;
+    }
+
+    .lesson-time {
+        font-weight: bold;
+    }
+
+    /* Practice Stats Widget */
+    .practice-stats-widget .stat-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5cm;
+        margin-bottom: 1cm;
+    }
+
+    .stat-trend.positive,
+    .stat-trend.negative {
+        font-weight: bold;
+    }
+
+    .highlights-list {
+        margin-top: 0.5cm;
+    }
+}

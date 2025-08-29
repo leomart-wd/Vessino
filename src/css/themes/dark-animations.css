@@ -1,0 +1,41 @@
+/* Dark Theme Animation Variations */
+[data-theme="dark"] {
+    /* Loading States */
+    .loading-shimmer {
+        background: linear-gradient(
+            90deg,
+            var(--surface-secondary) 0%,
+            var(--surface-tertiary) 50%,
+            var(--surface-secondary) 100%
+        );
+    }
+
+    .loading-spinner {
+        border-color: var(--surface-tertiary);
+        border-top-color: var(--primary-500);
+    }
+
+    /* Transitions */
+    .transition-card {
+        &:hover {
+            background: var(--surface-tertiary);
+            box-shadow: var(--shadow-md);
+        }
+    }
+
+    /* Hover Effects */
+    .hover-glow:hover {
+        box-shadow: 0 0 15px var(--primary-300);
+    }
+
+    /* Focus States */
+    .focus-outline:focus {
+        outline: 2px solid var(--primary-500);
+        outline-offset: 2px;
+    }
+
+    /* Active States */
+    .active-state:active {
+        background: var(--primary-50);
+    }
+}

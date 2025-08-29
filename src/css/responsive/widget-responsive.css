@@ -1,0 +1,113 @@
+/* Widget Components Responsive Styles */
+
+/* Progress Widget Responsive */
+@media (max-width: 767px) {
+    .progress-widget .progress-stats {
+        grid-template-columns: 1fr;
+        gap: var(--space-3);
+    }
+
+    .progress-widget .progress-chart-container {
+        height: 200px;
+    }
+
+    .progress-widget .skill-progress {
+        margin-top: var(--space-4);
+    }
+}
+
+/* Upcoming Lessons Widget Responsive */
+@media (max-width: 767px) {
+    .upcoming-lessons-widget .lesson-card {
+        flex-direction: column;
+        height: auto;
+        padding: var(--space-3);
+    }
+
+    .upcoming-lessons-widget .lesson-time {
+        flex-direction: row;
+        justify-content: space-around;
+        width: 100%;
+        padding: var(--space-2);
+    }
+
+    .upcoming-lessons-widget .lesson-info {
+        text-align: center;
+    }
+
+    .upcoming-lessons-widget .lesson-meta {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .upcoming-lessons-widget .lesson-actions {
+        justify-content: center;
+        margin-top: var(--space-3);
+    }
+}
+
+/* Practice Stats Widget Responsive */
+@media (max-width: 767px) {
+    .practice-stats-widget .stat-cards {
+        grid-template-columns: 1fr;
+        gap: var(--space-3);
+    }
+
+    .practice-stats-widget .practice-chart-container {
+        height: 180px;
+    }
+
+    .practice-stats-widget .highlights-list {
+        gap: var(--space-3);
+    }
+
+    .practice-stats-widget .highlight-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+/* Goals Widget Responsive */
+@media (max-width: 767px) {
+    .goals-widget .goals-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .goals-widget .goal-card {
+        min-height: auto;
+        padding: var(--space-3);
+    }
+
+    .goals-widget .goal-metrics {
+        flex-direction: column;
+        gap: var(--space-2);
+    }
+
+    .goals-widget .milestones-list {
+        margin-top: var(--space-3);
+    }
+
+    .goals-widget .goal-creator-content {
+        width: 90%;
+        max-height: 80vh;
+        padding: var(--space-4);
+    }
+}
+
+/* Recommendations Widget Responsive */
+@media (max-width: 767px) {
+    .recommendations-widget .recommendations-list {
+        grid-template-columns: 1fr;
+    }
+
+    .recommendations-widget .recommendation-card {
+        min-height: auto;
+    }
+
+    .recommendations-widget .recommendation-meta {
+        flex-direction: column;
+        gap: var(--space-3);
+        align-items: flex-start;
+    }
+}

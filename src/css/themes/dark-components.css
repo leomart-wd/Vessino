@@ -1,0 +1,76 @@
+/* Dark Theme Component-Specific Styles */
+[data-theme="dark"] {
+    /* Buttons */
+    .btn-primary {
+        background: var(--primary-500);
+        color: var(--text-primary);
+        &:hover {
+            background: var(--primary-600);
+        }
+    }
+
+    .btn-secondary {
+        background: var(--surface-tertiary);
+        color: var(--text-primary);
+        border: 1px solid var(--border-subtle);
+        &:hover {
+            background: var(--surface-secondary);
+        }
+    }
+
+    .btn-icon {
+        color: var(--text-secondary);
+        &:hover {
+            color: var(--text-primary);
+        }
+    }
+
+    /* Forms */
+    input, select, textarea {
+        background: var(--surface-tertiary);
+        border: 1px solid var(--border-subtle);
+        color: var(--text-primary);
+
+        &:focus {
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 2px var(--primary-100);
+        }
+
+        &::placeholder {
+            color: var(--text-muted);
+        }
+    }
+
+    /* Modals */
+    .modal-content {
+        background: var(--surface-primary);
+        border: 1px solid var(--border-subtle);
+    }
+
+    .modal-header {
+        border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .modal-footer {
+        border-top: 1px solid var(--border-subtle);
+    }
+
+    /* Navigation */
+    .nav-item {
+        &:hover {
+            background: var(--surface-tertiary);
+        }
+
+        &.active {
+            background: var(--primary-50);
+            color: var(--text-primary);
+        }
+    }
+
+    /* Tooltips */
+    .tooltip {
+        background: var(--tooltip-bg);
+        color: var(--text-primary);
+        border: 1px solid var(--border-subtle);
+    }
+}

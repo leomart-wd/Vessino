@@ -1,0 +1,71 @@
+/* Print Utilities */
+@media print {
+    /* Text Utilities */
+    .print-only {
+        display: block !important;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    /* Page Break Utilities */
+    .print-break-before {
+        page-break-before: always !important;
+    }
+
+    .print-break-after {
+        page-break-after: always !important;
+    }
+
+    .print-no-break {
+        page-break-inside: avoid !important;
+    }
+
+    /* Print Links with URLs */
+    a[href]::after {
+        content: " (" attr(href) ")" !important;
+        font-size: 90%;
+        color: #666 !important;
+    }
+
+    /* Exception for Internal Links */
+    a[href^="#"]::after,
+    a[href^="javascript:"]::after {
+        content: "" !important;
+    }
+
+    /* QR Code for Digital Version */
+    .print-qr-code {
+        display: block !important;
+        text-align: center;
+        margin: 1cm 0;
+    }
+
+    /* Print Timestamp */
+    .dashboard::after {
+        content: "Printed on " attr(data-print-date) " by " attr(data-print-user);
+        display: block;
+        text-align: center;
+        font-size: 8pt;
+        color: #666;
+        margin-top: 1cm;
+    }
+
+    /* Improve Contrast for Charts */
+    .chart-container {
+        background: white !important;
+    }
+
+    /* Format URLs in References */
+    .references {
+        font-size: 9pt;
+        margin-top: 1cm;
+        border-top: 1pt solid #ccc;
+        padding-top: 0.5cm;
+    }
+
+    .references li {
+        margin-bottom: 0.2cm;
+    }
+}

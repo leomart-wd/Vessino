@@ -1,0 +1,91 @@
+/* Base Widget Styles */
+.dashboard-widget {
+    background: var(--surface-primary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-base);
+    overflow: hidden;
+    position: relative;
+}
+
+.dashboard-widget:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.widget-header h2 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.widget-actions {
+    display: flex;
+    gap: var(--space-2);
+}
+
+.widget-content {
+    padding: var(--space-4);
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-8);
+    text-align: center;
+    color: var(--text-subtle);
+}
+
+.empty-state i {
+    font-size: var(--text-4xl);
+    margin-bottom: var(--space-4);
+    color: var(--text-muted);
+}
+
+.empty-state p {
+    margin-bottom: var(--space-4);
+}
+
+/* Loading State */
+.dashboard-widget.loading {
+    pointer-events: none;
+}
+
+.dashboard-widget.loading::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(2px);
+    z-index: 10;
+}
+
+.dashboard-widget.loading::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    border: 3px solid var(--primary-200);
+    border-top-color: var(--primary-600);
+    border-radius: 50%;
+    animation: widget-loading 0.8s infinite linear;
+    z-index: 11;
+}
+
+@keyframes widget-loading {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}

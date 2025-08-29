@@ -1,0 +1,42 @@
+/* Performance Optimizations */
+
+/* Use transform and opacity for animations */
+.optimize-animation {
+    will-change: transform, opacity;
+}
+
+/* Reduce repaints */
+.reduce-repaints {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* Disable animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .animation-reduced {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* Hardware acceleration for smooth animations */
+.hardware-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* Optimize paint performance */
+.paint-optimization {
+    contain: content;
+    isolation: isolate;
+}

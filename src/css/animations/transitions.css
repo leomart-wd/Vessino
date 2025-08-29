@@ -1,0 +1,28 @@
+/* Base Transitions */
+:root {
+    --transition-base: all 0.3s ease;
+    --transition-fast: all 0.15s ease;
+    --transition-slow: all 0.5s ease;
+    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-slide: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fade: opacity 0.3s ease;
+}
+
+/* Element State Transitions */
+.transition-all {
+    transition: var(--transition-base);
+}
+
+.transition-transform {
+    transition: transform 0.3s ease;
+}
+
+.transition-opacity {
+    transition: opacity 0.3s ease;
+}
+
+.transition-colors {
+    transition: background-color 0.3s ease, 
+                border-color 0.3s ease, 
+                color 0.3s ease;
+}

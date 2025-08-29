@@ -1,0 +1,102 @@
+/* Progress Widget Specific Styles */
+.progress-widget {
+    --chart-height: 240px;
+}
+
+.progress-overview {
+    padding: var(--space-4);
+}
+
+.progress-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.stat {
+    text-align: center;
+    padding: var(--space-4);
+    background: var(--surface-secondary);
+    border-radius: var(--radius-md);
+    transition: var(--transition-base);
+}
+
+.stat:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.stat-value {
+    display: block;
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    color: var(--primary-600);
+    margin-bottom: var(--space-2);
+}
+
+.stat-label {
+    font-size: var(--text-sm);
+    color: var(--text-subtle);
+}
+
+.progress-chart-container {
+    height: var(--chart-height);
+    margin: var(--space-6) 0;
+    position: relative;
+}
+
+.skill-progress {
+    margin-top: var(--space-6);
+}
+
+.skill-item {
+    margin-bottom: var(--space-4);
+}
+
+.skill-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-2);
+}
+
+.skill-name {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.skill-value {
+    font-size: var(--text-sm);
+    color: var(--text-subtle);
+}
+
+.skill-bar {
+    height: 6px;
+    background: var(--surface-tertiary);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.skill-fill {
+    height: 100%;
+    background: var(--primary-500);
+    transition: width 0.3s ease-out;
+}
+
+/* Detailed View Styles */
+.progress-widget.detailed-view .progress-chart-container {
+    height: calc(var(--chart-height) * 1.5);
+}
+
+@media (max-width: 768px) {
+    .progress-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .progress-stats {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,26 @@
+/* Dark Theme Utility Classes */
+[data-theme="dark"] {
+    /* Text Utilities */
+    .text-primary { color: var(--text-primary) !important; }
+    .text-secondary { color: var(--text-secondary) !important; }
+    .text-subtle { color: var(--text-subtle) !important; }
+    .text-muted { color: var(--text-muted) !important; }
+
+    /* Background Utilities */
+    .bg-primary { background-color: var(--surface-primary) !important; }
+    .bg-secondary { background-color: var(--surface-secondary) !important; }
+    .bg-tertiary { background-color: var(--surface-tertiary) !important; }
+
+    /* Border Utilities */
+    .border-subtle { border-color: var(--border-subtle) !important; }
+
+    /* Shadow Utilities */
+    .shadow-sm { box-shadow: var(--shadow-sm) !important; }
+    .shadow-md { box-shadow: var(--shadow-md) !important; }
+    .shadow-lg { box-shadow: var(--shadow-lg) !important; }
+
+    /* Status Colors */
+    .status-success { color: var(--success-500) !important; }
+    .status-error { color: var(--error-500) !important; }
+    .status-warning { color: var(--warning-500) !important; }
+}

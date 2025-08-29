@@ -1,0 +1,86 @@
+/* Widget-specific Animations */
+
+/* Progress Widget Animations */
+.progress-widget {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.progress-widget .stat {
+    animation: scaleIn 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.progress-widget .stat:nth-child(1) { animation-delay: 0.1s; }
+.progress-widget .stat:nth-child(2) { animation-delay: 0.2s; }
+.progress-widget .stat:nth-child(3) { animation-delay: 0.3s; }
+
+.skill-fill {
+    animation: slideIn 0.8s ease-out;
+    animation-fill-mode: both;
+    transform-origin: left;
+}
+
+/* Goals Widget Animations */
+.goal-card {
+    animation: fadeIn 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.goal-card:hover .goal-progress .progress-fill {
+    animation: pulse 1s ease-in-out infinite;
+}
+
+.milestone-item.completed i {
+    animation: bounce 1s ease-out;
+}
+
+/* Upcoming Lessons Widget Animations */
+.lesson-card {
+    animation: slideIn 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.lesson-card:nth-child(1) { animation-delay: 0.1s; }
+.lesson-card:nth-child(2) { animation-delay: 0.2s; }
+.lesson-card:nth-child(3) { animation-delay: 0.3s; }
+
+.btn-join:hover i {
+    animation: pulse 1s infinite;
+}
+
+/* Practice Stats Widget Animations */
+.stat-trend.positive i {
+    animation: slideIn 0.5s ease-out;
+    color: var(--success-600);
+}
+
+.stat-trend.negative i {
+    animation: slideIn 0.5s ease-out;
+    color: var(--error-600);
+}
+
+.highlight-item {
+    animation: fadeIn 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+/* Loading States */
+.loading-shimmer {
+    background: linear-gradient(
+        90deg,
+        var(--surface-secondary) 0%,
+        var(--surface-tertiary) 50%,
+        var(--surface-secondary) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+.loading-spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid var(--primary-200);
+    border-top-color: var(--primary-600);
+    border-radius: 50%;
+    animation: rotate 0.8s linear infinite;
+}

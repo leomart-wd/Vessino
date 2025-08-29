@@ -1,0 +1,54 @@
+/* Dashboard Print Layout */
+@media print {
+    .dashboard {
+        padding: 0 !important;
+    }
+
+    .dashboard-header {
+        padding: 1cm 0;
+        border-bottom: 2pt solid #000;
+        margin-bottom: 1cm;
+    }
+
+    .dashboard-title h1 {
+        font-size: 24pt;
+        margin: 0;
+    }
+
+    .dashboard-grid {
+        display: block !important;
+    }
+
+    .dashboard-widget {
+        margin-bottom: 1cm;
+        padding: 0.5cm;
+        border: 1pt solid #ccc !important;
+    }
+
+    /* Force Page Breaks Between Major Sections */
+    .widget-progress,
+    .widget-goals,
+    .widget-practice {
+        page-break-before: always;
+    }
+
+    /* Prevent Unwanted Breaks */
+    .stat-card,
+    .goal-card,
+    .lesson-card {
+        page-break-inside: avoid;
+    }
+
+    /* Ensure Charts Print Properly */
+    .chart-container {
+        max-height: none !important;
+        height: auto !important;
+        min-height: 300px;
+        margin: 1cm 0;
+    }
+
+    canvas {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+}

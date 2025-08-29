@@ -1,0 +1,77 @@
+/* Theme Change Animation Effects */
+[data-theme-changing="true"] {
+    /* Fade Animation for Content */
+    .dashboard-content {
+        animation: themeChangeFade var(--theme-transition-duration) var(--theme-transition-timing);
+    }
+
+    /* Scale Animation for Cards */
+    .dashboard-widget {
+        animation: themeChangeScale var(--theme-transition-duration) var(--theme-transition-timing);
+    }
+
+    /* Slide Animation for Navigation */
+    .nav-item {
+        animation: themeChangeSlide var(--theme-transition-duration) var(--theme-transition-timing);
+    }
+}
+
+/* Theme Change Keyframes */
+@keyframes themeChangeFade {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes themeChangeScale {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.98);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes themeChangeSlide {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(-4px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* Smooth Background Transitions */
+.theme-transition-bg {
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: inherit;
+        transition: opacity var(--theme-transition-duration) var(--theme-transition-timing);
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    &[data-theme-changing="true"]::before {
+        opacity: 0;
+    }
+}

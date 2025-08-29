@@ -1,0 +1,94 @@
+/* Dark Theme Widget-Specific Styles */
+[data-theme="dark"] {
+    /* Progress Widget */
+    .progress-widget {
+        .stat {
+            background: var(--surface-tertiary);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .skill-bar {
+            background: var(--surface-tertiary);
+        }
+
+        .skill-fill {
+            background: var(--primary-500);
+        }
+
+        .chart-container {
+            canvas {
+                filter: brightness(0.9);
+            }
+        }
+    }
+
+    /* Goals Widget */
+    .goals-widget {
+        .goal-card {
+            background: var(--surface-secondary);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .goal-type {
+            background: var(--surface-tertiary);
+            color: var(--text-secondary);
+        }
+
+        .progress-bar {
+            background: var(--surface-tertiary);
+        }
+
+        .milestone-item.completed {
+            color: var(--success-500);
+        }
+
+        .goal-creator-content {
+            background: var(--surface-primary);
+            border: 1px solid var(--border-subtle);
+        }
+    }
+
+    /* Upcoming Lessons Widget */
+    .upcoming-lessons-widget {
+        .lesson-card {
+            background: var(--surface-secondary);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .lesson-time {
+            background: var(--primary-50);
+            color: var(--text-secondary);
+        }
+
+        .lesson-card.past {
+            opacity: 0.6;
+        }
+
+        .btn-join {
+            background: var(--primary-500);
+            &:hover {
+                background: var(--primary-600);
+            }
+        }
+    }
+
+    /* Practice Stats Widget */
+    .practice-stats-widget {
+        .stat-card {
+            background: var(--surface-tertiary);
+        }
+
+        .stat-trend.positive {
+            color: var(--success-500);
+        }
+
+        .stat-trend.negative {
+            color: var(--error-500);
+        }
+
+        .highlight-item {
+            background: var(--surface-tertiary);
+            border: 1px solid var(--border-subtle);
+        }
+    }
+}

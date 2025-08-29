@@ -1,0 +1,38 @@
+/* Performance Optimizations for Theme Transitions */
+/* Apply these classes strategically to optimize rendering */
+
+/* Hardware Acceleration for Smooth Transitions */
+.theme-gpu {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* Reduce Layout Thrashing */
+.theme-layout-optimize {
+    contain: layout style;
+}
+
+/* Paint Containment */
+.theme-paint-optimize {
+    contain: paint;
+}
+
+/* Transition Layer Promotion */
+.theme-layer-promote {
+    will-change: transform;
+}
+
+/* Reduced Motion Preferences */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition-duration: 0.001ms !important;
+        animation-duration: 0.001ms !important;
+    }
+}
+
+/* Memory Usage Optimization */
+.theme-memory-optimize {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
+}
