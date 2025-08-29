@@ -1,258 +1,427 @@
-export class ThemeDebugger {
+export class ThemePerformanceOptimizer {
     constructor() {
         this.currentUser = {
             login: 'leomart-wd',
-            lastActive: '2025-08-29 13:53:33'
+            lastActive: '2025-08-29 14:11:14'
         };
         
-        this.transitions = new Map();
-        this.performanceMarks = new Map();
-        this.isDebugMode = false;
-        this.debugPanel = null;
-        this.logger = null;
+        this.metrics = new Map();
+        this.thresholds = {
+            transitionDuration: 300, // ms
+            frameRate: 60,
+            layoutTriggers: 5,
+            paintTriggers: 10,
+            memoryUsage: 50 // MB
+        };
     }
 
-    initialize() {
-        if (process.env.NODE_ENV === 'development') {
-            this.createDebugPanel();
-            this.initializeLogger();
-            this.attachEventListeners();
-            this.startPerformanceMonitoring();
-            console.log(`Theme debugger initialized for user ${this.currentUser.login}`);
+    async analyze() {
+        const report = {
+            timestamp: this.currentUser.lastActive,
+            user: this.currentUser.login,
+            issues: [],
+            recommendations: [],
+            metrics: {},
+            score: 0
+        };
+
+        try {
+            // Collect performance data
+            const performanceData = await this.collectPerformanceData();
+            
+            // Analyze different aspects
+            const analyses = await Promise.all([
+                this.analyzeTransitions(performanceData),
+                this.analyzeLayouts(performanceData),
+                this.analyzePaints(performanceData),
+                this.analyzeMemory(performanceData),
+                this.analyzeSelectors()
+            ]);
+
+            // Combine analyses
+            analyses.forEach(analysis => {
+                report.issues.push(...analysis.issues);
+                report.recommendations.push(...analysis.recommendations);
+                report.metrics = { ...report.metrics, ...analysis.metrics };
+            });
+
+            // Calculate overall score
+            report.score = this.calculateScore(report);
+
+            return report;
+        } catch (error) {
+            console.error('Performance analysis failed:', error);
+            throw error;
         }
     }
 
-    createDebugPanel() {
-        const panel = document.createElement('div');
-        panel.className = 'theme-debug-panel';
-        panel.innerHTML = `
-            <div class="debug-header">
-                <h3>Theme Transition Debugger</h3>
-                <span class="debug-timestamp">${this.currentUser.lastActive}</span>
-            </div>
-            <div class="debug-content">
-                <div class="debug-metrics"></div>
-                <div class="debug-log"></div>
-                <div class="debug-controls">
-                    <button class="btn-debug" onclick="themeDebugger.toggleDebugMode()">
-                        Toggle Debug Mode
-                    </button>
-                    <button class="btn-debug" onclick="themeDebugger.captureSnapshot()">
-                        Capture Snapshot
-                    </button>
-                </div>
-            </div>
-        `;
-        
-        document.body.appendChild(panel);
-        this.debugPanel = panel;
-    }
-
-    initializeLogger() {
-        this.logger = {
+    async collectPerformanceData() {
+        const data = {
             transitions: [],
-            performance: [],
-            errors: [],
-            maxEntries: 100,
+            layouts: [],
+            paints: [],
+            memory: null,
+            timeOrigin: performance.timeOrigin
+        };
 
-            log(type, message, data = {}) {
-                const entry = {
-                    timestamp: new Date().toISOString(),
-                    type,
-                    message,
-                    data
-                };
+        // Collect transition performance
+        performance.getEntriesByType('measure')
+            .filter(entry => entry.name.includes('theme-transition'))
+            .forEach(entry => {
+                data.transitions.push({
+                    name: entry.name,
+                    duration: entry.duration,
+                    startTime: entry.startTime
+                });
+            });
 
-                this.transitions.push(entry);
-                if (this.transitions.length > this.maxEntries) {
-                    this.transitions.shift();
-                }
+        // Collect layout performance
+        const layoutObserver = new PerformanceObserver((list) => {
+            data.layouts.push(...list.getEntries());
+        });
+        layoutObserver.observe({ entryTypes: ['layout-shift'] });
 
-                this.updateDebugPanel();
+        // Collect paint performance
+        const paintObserver = new PerformanceObserver((list) => {
+            data.paints.push(...list.getEntries());
+        });
+        paintObserver.observe({ entryTypes: ['paint'] });
+
+        // Collect memory usage if available
+        if (performance.memory) {
+            data.memory = {
+                usedJSHeapSize: performance.memory.usedJSHeapSize,
+                totalJSHeapSize: performance.memory.totalJSHeapSize,
+                jsHeapSizeLimit: performance.memory.jsHeapSizeLimit
+            };
+        }
+
+        return data;
+    }
+
+    async analyzeTransitions(data) {
+        const analysis = {
+            issues: [],
+            recommendations: [],
+            metrics: {
+                averageTransitionDuration: 0,
+                slowestTransition: 0
             }
         };
-    }
 
-    attachEventListeners() {
-        document.addEventListener('themechange', this.handleThemeChange.bind(this));
-        
-        // Monitor CSS transitions
-        document.addEventListener('transitionstart', this.handleTransitionStart.bind(this));
-        document.addEventListener('transitionend', this.handleTransitionEnd.bind(this));
-        
-        // Monitor performance
-        const observer = new PerformanceObserver(this.handlePerformanceEntry.bind(this));
-        observer.observe({ entryTypes: ['measure', 'paint'] });
-    }
+        const transitions = data.transitions;
+        if (transitions.length > 0) {
+            const durations = transitions.map(t => t.duration);
+            analysis.metrics.averageTransitionDuration = 
+                durations.reduce((a, b) => a + b, 0) / durations.length;
+            analysis.metrics.slowestTransition = Math.max(...durations);
 
-    handleThemeChange(event) {
-        const { theme, timestamp } = event.detail;
-        this.logger.log('theme-change', `Theme changed to ${theme}`, {
-            previousTheme: document.documentElement.getAttribute('data-theme'),
-            timestamp
-        });
+            if (analysis.metrics.averageTransitionDuration > this.thresholds.transitionDuration) {
+                analysis.issues.push({
+                    type: 'transition',
+                    severity: 'high',
+                    message: 'Slow theme transitions detected'
+                });
 
-        this.capturePerformanceMetrics();
-    }
+                analysis.recommendations.push({
+                    type: 'transition',
+                    priority: 'high',
+                    message: 'Optimize theme transitions',
+                    suggestions: [
+                        'Use CSS transform instead of layout properties',
+                        'Add will-change hint for frequently animated properties',
+                        'Consider reducing the number of transitioning properties',
+                        'Implement progressive loading for complex theme changes'
+                    ],
+                    codeExample: `
+// Add will-change hint
+.theme-transition {
+    will-change: transform, opacity;
+}
 
-    handleTransitionStart(event) {
-        const { propertyName, target } = event;
-        const transitionId = crypto.randomUUID();
-        
-        this.transitions.set(transitionId, {
-            startTime: performance.now(),
-            propertyName,
-            targetElement: target,
-            completed: false
-        });
-
-        this.logger.log('transition-start', `Transition started for ${propertyName}`, {
-            transitionId,
-            targetElement: this.getElementIdentifier(target)
-        });
-    }
-
-    handleTransitionEnd(event) {
-        const { propertyName, target } = event;
-        let transitionId = null;
-
-        // Find the matching transition
-        for (const [id, transition] of this.transitions) {
-            if (transition.propertyName === propertyName && 
-                transition.targetElement === target) {
-                transitionId = id;
-                break;
-            }
-        }
-
-        if (transitionId) {
-            const transition = this.transitions.get(transitionId);
-            const duration = performance.now() - transition.startTime;
-
-            this.logger.log('transition-end', `Transition completed for ${propertyName}`, {
-                transitionId,
-                duration: `${duration.toFixed(2)}ms`,
-                targetElement: this.getElementIdentifier(target)
-            });
-
-            this.transitions.delete(transitionId);
-        }
-    }
-
-    handlePerformanceEntry(entries) {
-        entries.getEntries().forEach(entry => {
-            this.performanceMarks.set(entry.name, entry);
-            
-            this.logger.log('performance', `Performance entry recorded: ${entry.name}`, {
-                duration: `${entry.duration.toFixed(2)}ms`,
-                entryType: entry.entryType,
-                startTime: entry.startTime
-            });
-        });
-    }
-
-    capturePerformanceMetrics() {
-        performance.mark('theme-transition-start');
-
-        // Measure frame rates during transition
-        let frames = 0;
-        const startTime = performance.now();
-
-        const measureFrames = (timestamp) => {
-            frames++;
-            
-            if (performance.now() - startTime < 1000) {
-                requestAnimationFrame(measureFrames);
-            } else {
-                const fps = Math.round(frames * 1000 / (performance.now() - startTime));
-                
-                this.logger.log('performance', `Frame rate during transition`, {
-                    fps,
-                    frames,
-                    duration: `${(performance.now() - startTime).toFixed(2)}ms`
+// Use transform instead of layout properties
+.theme-animate {
+    transform: translateZ(0);
+    transition: transform 0.3s ease;
+}
+                    `
                 });
             }
-        };
+        }
 
-        requestAnimationFrame(measureFrames);
+        return analysis;
     }
 
-    captureSnapshot() {
-        const snapshot = {
-            timestamp: this.currentUser.lastActive,
-            theme: document.documentElement.getAttribute('data-theme'),
-            transitions: Array.from(this.transitions.entries()),
-            performanceMarks: Array.from(this.performanceMarks.entries()),
-            logs: this.logger.transitions,
+    async analyzeLayouts(data) {
+        const analysis = {
+            issues: [],
+            recommendations: [],
             metrics: {
-                pendingTransitions: this.transitions.size,
-                completedTransitions: this.performanceMarks.size,
-                errors: this.logger.errors.length
+                layoutShifts: 0,
+                cumulativeLayoutShift: 0
             }
         };
 
-        // Download snapshot
-        const blob = new Blob([JSON.stringify(snapshot, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `theme-debug-snapshot-${new Date().toISOString()}.json`;
-        a.click();
-        URL.revokeObjectURL(url);
-    }
+        const layouts = data.layouts;
+        if (layouts.length > 0) {
+            analysis.metrics.layoutShifts = layouts.length;
+            analysis.metrics.cumulativeLayoutShift = 
+                layouts.reduce((sum, entry) => sum + entry.value, 0);
 
-    getElementIdentifier(element) {
-        return {
-            tagName: element.tagName.toLowerCase(),
-            id: element.id,
-            className: element.className,
-            path: this.getElementPath(element)
-        };
-    }
+            if (analysis.metrics.layoutShifts > this.thresholds.layoutTriggers) {
+                analysis.issues.push({
+                    type: 'layout',
+                    severity: 'medium',
+                    message: 'Excessive layout shifts during theme changes'
+                });
 
-    getElementPath(element) {
-        const path = [];
-        while (element && element.nodeType === Node.ELEMENT_NODE) {
-            let selector = element.tagName.toLowerCase();
-            if (element.id) {
-                selector += `#${element.id}`;
-            } else if (element.className) {
-                selector += `.${element.className.split(' ').join('.')}`;
+                analysis.recommendations.push({
+                    type: 'layout',
+                    priority: 'medium',
+                    message: 'Reduce layout shifts',
+                    suggestions: [
+                        'Use CSS contain property to isolate layout changes',
+                        'Pre-calculate and reserve space for dynamic content',
+                        'Group layout changes using requestAnimationFrame',
+                        'Implement size containment for theme-sensitive elements'
+                    ],
+                    codeExample: `
+// Isolate layout changes
+.theme-container {
+    contain: layout style paint;
+}
+
+// Group layout changes
+function updateThemeLayouts() {
+    requestAnimationFrame(() => {
+        // Perform all layout changes here
+        elements.forEach(updateLayout);
+    });
+}
+                    `
+                });
             }
-            path.unshift(selector);
-            element = element.parentNode;
         }
-        return path.join(' > ');
+
+        return analysis;
     }
 
-    toggleDebugMode() {
-        this.isDebugMode = !this.isDebugMode;
-        document.documentElement.classList.toggle('theme-debug-mode', this.isDebugMode);
-        
-        if (this.isDebugMode) {
-            this.highlightTransitionElements();
-        } else {
-            this.removeTransitionHighlights();
+    async analyzePaints(data) {
+        const analysis = {
+            issues: [],
+            recommendations: [],
+            metrics: {
+                paintCount: 0,
+                firstPaint: 0,
+                firstContentfulPaint: 0
+            }
+        };
+
+        const paints = data.paints;
+        if (paints.length > 0) {
+            analysis.metrics.paintCount = paints.length;
+            
+            const firstPaint = paints.find(p => p.name === 'first-paint');
+            const firstContentfulPaint = paints.find(p => p.name === 'first-contentful-paint');
+
+            if (firstPaint) analysis.metrics.firstPaint = firstPaint.startTime;
+            if (firstContentfulPaint) analysis.metrics.firstContentfulPaint = firstContentfulPaint.startTime;
+
+            if (analysis.metrics.paintCount > this.thresholds.paintTriggers) {
+                analysis.issues.push({
+                    type: 'paint',
+                    severity: 'medium',
+                    message: 'Frequent repaints during theme changes'
+                });
+
+                analysis.recommendations.push({
+                    type: 'paint',
+                    priority: 'medium',
+                    message: 'Optimize paint operations',
+                    suggestions: [
+                        'Use CSS opacity and transform for animations',
+                        'Promote elements to new layers when appropriate',
+                        'Implement paint containment',
+                        'Batch visual updates using requestAnimationFrame'
+                    ],
+                    codeExample: `
+// Promote to new layer
+.theme-layer {
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+// Paint containment
+.theme-paint {
+    contain: paint;
+    isolation: isolate;
+}
+                    `
+                });
+            }
         }
+
+        return analysis;
     }
 
-    highlightTransitionElements() {
-        document.querySelectorAll('[class*="theme-"]').forEach(element => {
-            element.setAttribute('data-debug-theme', 'true');
+    async analyzeMemory(data) {
+        const analysis = {
+            issues: [],
+            recommendations: [],
+            metrics: {
+                memoryUsage: 0,
+                memoryLimit: 0
+            }
+        };
+
+        if (data.memory) {
+            analysis.metrics.memoryUsage = 
+                (data.memory.usedJSHeapSize / data.memory.jsHeapSizeLimit) * 100;
+            analysis.metrics.memoryLimit = data.memory.jsHeapSizeLimit;
+
+            if (analysis.metrics.memoryUsage > this.thresholds.memoryUsage) {
+                analysis.issues.push({
+                    type: 'memory',
+                    severity: 'high',
+                    message: 'High memory usage during theme operations'
+                });
+
+                analysis.recommendations.push({
+                    type: 'memory',
+                    priority: 'high',
+                    message: 'Optimize memory usage',
+                    suggestions: [
+                        'Implement cleanup for unused theme resources',
+                        'Use WeakMap for theme-related caches',
+                        'Dispose of unused event listeners',
+                        'Implement progressive loading for theme assets'
+                    ],
+                    codeExample: `
+// Use WeakMap for theme caches
+const themeCache = new WeakMap();
+
+// Cleanup unused resources
+function cleanupThemeResources() {
+    themeCache.clear();
+    removeUnusedListeners();
+    disposeUnusedAssets();
+}
+                    `
+                });
+            }
+        }
+
+        return analysis;
+    }
+
+    analyzeSelectors() {
+        const analysis = {
+            issues: [],
+            recommendations: [],
+            metrics: {
+                complexSelectors: 0,
+                specificity: 0
+            }
+        };
+
+        // Analyze CSS selectors
+        const styleSheets = Array.from(document.styleSheets);
+        let complexSelectorCount = 0;
+        let totalSpecificity = 0;
+        let ruleCount = 0;
+
+        styleSheets.forEach(sheet => {
+            try {
+                Array.from(sheet.cssRules).forEach(rule => {
+                    if (rule.selectorText) {
+                        ruleCount++;
+                        if (this.isComplexSelector(rule.selectorText)) {
+                            complexSelectorCount++;
+                        }
+                        totalSpecificity += this.calculateSpecificity(rule.selectorText);
+                    }
+                });
+            } catch (e) {
+                // CORS restriction on external stylesheets
+                console.warn('Could not analyze stylesheet:', e);
+            }
         });
-    }
 
-    removeTransitionHighlights() {
-        document.querySelectorAll('[data-debug-theme]').forEach(element => {
-            element.removeAttribute('data-debug-theme');
-        });
-    }
+        analysis.metrics.complexSelectors = complexSelectorCount;
+        analysis.metrics.specificity = ruleCount > 0 ? totalSpecificity / ruleCount : 0;
 
-    destroy() {
-        if (this.debugPanel) {
-            this.debugPanel.remove();
+        if (complexSelectorCount > 0) {
+            analysis.issues.push({
+                type: 'selectors',
+                severity: 'low',
+                message: 'Complex CSS selectors detected'
+            });
+
+            analysis.recommendations.push({
+                type: 'selectors',
+                priority: 'low',
+                message: 'Optimize CSS selectors',
+                suggestions: [
+                    'Simplify complex selectors',
+                    'Use BEM naming convention',
+                    'Reduce selector specificity',
+                    'Implement CSS modules or scoped styles'
+                ],
+                codeExample: `
+/* Instead of */
+.theme-dark .widget .content > div.item {
+    /* ... */
+}
+
+/* Use */
+.theme-widget__item {
+    /* ... */
+}
+                `
+            });
         }
-        this.transitions.clear();
-        this.performanceMarks.clear();
+
+        return analysis;
+    }
+
+    isComplexSelector(selector) {
+        // Check for deep nesting, multiple combinators, or high specificity
+        const nestingLevel = (selector.match(/[\s>+~]/g) || []).length;
+        const attributeSelectors = (selector.match(/\[.*?\]/g) || []).length;
+        const pseudoSelectors = (selector.match(/:[a-zA-Z]/g) || []).length;
+
+        return nestingLevel > 3 || attributeSelectors > 2 || pseudoSelectors > 2;
+    }
+
+    calculateSpecificity(selector) {
+        const idCount = (selector.match(/#/g) || []).length;
+        const classCount = (selector.match(/\./g) || []).length;
+        const attributeCount = (selector.match(/\[.*?\]/g) || []).length;
+        const elementCount = (selector.match(/[a-zA-Z]/g) || []).length;
+
+        return idCount * 100 + (classCount + attributeCount) * 10 + elementCount;
+    }
+
+    calculateScore(report) {
+        const weights = {
+            transition: 0.3,
+            layout: 0.25,
+            paint: 0.25,
+            memory: 0.1,
+            selectors: 0.1
+        };
+
+        let score = 100;
+
+        report.issues.forEach(issue => {
+            const weight = weights[issue.type] || 0.1;
+            switch (issue.severity) {
+                case 'high': score -= 20 * weight; break;
+                case 'medium': score -= 10 * weight; break;
+                case 'low': score -= 5 * weight; break;
+            }
+        });
+
+        return Math.max(0, Math.min(100, Math.round(score)));
     }
 }
