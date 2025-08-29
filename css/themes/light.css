@@ -1,0 +1,8 @@
+/* Light Theme */
+[data-theme="light"] {
+    --bg-primary: var(--neutral-100);
+    --bg-secondary: var(--neutral-200);
+    --text-primary: var(--neutral-900);
+    --text-secondary: var(--neutral-700);
+    --border-color: var(--neutral-300);
+}

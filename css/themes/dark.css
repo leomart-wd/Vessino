@@ -1,0 +1,19 @@
+/* Dark Theme */
+[data-theme="dark"] {
+    --bg-primary: var(--neutral-900);
+    --bg-secondary: var(--neutral-800);
+    --text-primary: var(--neutral-100);
+    --text-secondary: var(--neutral-300);
+    --border-color: var(--neutral-700);
+}
+
+[data-theme="dark"] .btn-secondary {
+    background-color: var(--neutral-700);
+    color: var(--neutral-100);
+}
+
+[data-theme="dark"] .form-input {
+    background-color: var(--neutral-800);
+    border-color: var(--neutral-600);
+    color: var(--neutral-100);
+}

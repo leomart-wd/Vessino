@@ -1,0 +1,7 @@
+body { font-size: 1.1rem; }
+button { min-width: 48px; min-height: 48px; font-size: 1.2em; }
+@media (max-width: 600px) {
+    nav { flex-direction: column; }
+    h1,h2 { font-size: 1.5em; }
+    .dashboard { padding: 0.5em; }
+}

@@ -1,0 +1,68 @@
+/* Form Component Styles */
+.form-group {
+    margin-bottom: var(--space-4);
+}
+
+.form-label {
+    display: block;
+    margin-bottom: var(--space-2);
+    font-weight: 500;
+    color: var(--neutral-700);
+}
+
+.form-input {
+    width: 100%;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--neutral-300);
+    border-radius: var(--radius-base);
+    font-size: var(--text-base);
+    line-height: 1.5;
+    transition: var(--transition-base);
+}
+
+.form-input:focus {
+    border-color: var(--primary-500);
+    box-shadow: 0 0 0 2px var(--primary-100);
+    outline: none;
+}
+
+.form-input::placeholder {
+    color: var(--neutral-500);
+}
+
+/* Input States */
+.form-input-error {
+    border-color: var(--error);
+}
+
+.form-input-success {
+    border-color: var(--success);
+}
+
+.form-error-message {
+    margin-top: var(--space-1);
+    font-size: var(--text-sm);
+    color: var(--error);
+}
+
+/* Custom Select */
+.form-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,...");
+    background-repeat: no-repeat;
+    background-position: right var(--space-3) center;
+    background-size: 1em;
+}
+
+/* Checkbox & Radio */
+.form-checkbox,
+.form-radio {
+    padding-left: var(--space-6);
+    min-height: 1.5rem;
+}
+
+.form-checkbox input[type="checkbox"],
+.form-radio input[type="radio"] {
+    float: left;
+    margin-left: calc(var(--space-6) * -1);
+}

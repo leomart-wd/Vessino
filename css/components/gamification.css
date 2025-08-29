@@ -1,0 +1,176 @@
+/* Gamification Animations and Styles */
+
+.achievement-animation {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: var(--z-popover);
+    animation: slideIn 0.3s ease-out;
+}
+
+.achievement-popup {
+    display: flex;
+    align-items: center;
+    background: var(--primary-600);
+    color: white;
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+}
+
+.achievement-icon {
+    font-size: 2em;
+    margin-right: var(--space-4);
+}
+
+.achievement-text h3 {
+    margin: 0;
+    font-size: var(--text-xl);
+}
+
+.achievement-text p {
+    margin: 0;
+    font-size: var(--text-sm);
+    opacity: 0.9;
+}
+
+.level-up-animation {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: var(--z-modal);
+}
+
+.level-up-popup {
+    background: var(--primary-600);
+    color: white;
+    padding: var(--space-8);
+    border-radius: var(--radius-xl);
+    text-align: center;
+    animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.level-up-icon {
+    font-size: 4em;
+    margin-bottom: var(--space-4);
+}
+
+.badge-animation {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: var(--z-popover);
+    animation: slideUp 0.3s ease-out;
+}
+
+.badge-popup {
+    display: flex;
+    align-items: center;
+    background: var(--primary-900);
+    color: white;
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+}
+
+.badge-icon {
+    font-size: 2.5em;
+    margin-right: var(--space-4);
+}
+
+.badge-info h3 {
+    margin: 0;
+    font-size: var(--text-lg);
+}
+
+.badge-info p {
+    margin: 0;
+    font-size: var(--text-sm);
+    opacity: 0.9;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    70% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Progress Bar Styles */
+.xp-progress {
+    width: 100%;
+    height: 8px;
+    background: var(--neutral-200);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.xp-progress-bar {
+    height: 100%;
+    background: var(--primary-600);
+    transition: width 0.3s ease-out;
+}
+
+/* Leaderboard Styles */
+.leaderboard {
+    background: var(--neutral-100);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    box-shadow: var(--shadow-md);
+}
+
+.leaderboard-item {
+    display: flex;
+    align-items: center;
+    padding: var(--space-3);
+    border-bottom: 1px solid var(--neutral-200);
+}
+
+.leaderboard-rank {
+    font-weight: bold;
+    width: 40px;
+}
+
+.leaderboard-user {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.leaderboard-score {
+    font-weight: bold;
+    color: var(--primary-600);
+}

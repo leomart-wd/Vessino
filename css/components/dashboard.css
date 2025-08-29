@@ -1,0 +1,147 @@
+/* Dashboard Layout */
+.dashboard {
+    display: grid;
+    grid-template-columns: 250px 1fr 300px;
+    gap: var(--space-4);
+    height: 100vh;
+    padding: var(--space-4);
+    background: var(--neutral-100);
+}
+
+/* Navigation Styles */
+.dashboard-nav {
+    background: var(--neutral-800);
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    height: 100%;
+}
+
+.nav-items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    color: var(--neutral-100);
+    transition: var(--transition-base);
+}
+
+.nav-item:hover {
+    background: var(--neutral-700);
+}
+
+.nav-item.active {
+    background: var(--primary-600);
+}
+
+/* Content Area */
+.dashboard-content {
+    background: var(--neutral-50);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    overflow-y: auto;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.stat-card {
+    background: white;
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.stat-value {
+    font-size: var(--text-2xl);
+    font-weight: bold;
+    color: var(--primary-600);
+}
+
+/* Student Cards */
+.students-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-4);
+}
+
+.student-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    box-shadow: var(--shadow-md);
+}
+
+.student-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+}
+
+.student-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Progress Visualization */
+.progress-bar {
+    height: 8px;
+    background: var(--neutral-200);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--primary-600);
+    transition: width 0.3s ease-out;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: var(--z-nav);
+        border-radius: 0;
+    }
+
+    .nav-items {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .nav-item span {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .students-grid {
+        grid-template-columns: 1fr;
+    }
+}
